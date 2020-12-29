@@ -1,5 +1,6 @@
 const redux = require('redux');
 const createStore = redux.createStore;
+const combineReducers = redux.combineReducers;
 
 // *** Three core concepts:
 // * STORE - holds the state of your application
@@ -33,18 +34,28 @@ const buyIceCream = () => {
 // ! REDUCER - pure function that accepts state and action as arguments and returns next state
 // ! make sure to always recreate state inside reducer as we return the whole state
 
-const initialState = {
+const initialCakeState = {
   numOfCakes: 10,
+};
+
+const initialIcecreamState = {
   numOfIceCreams: 20,
 };
 
-const reducer = (state = initialState, action) => {
+const cakeReducer = (state = initialCakeState, action) => {
   switch (action.type) {
     case 'BUY_CAKE':
       return {
         ...state,
         numOfCakes: state.numOfCakes - 1,
       };
+    default:
+      return state;
+  }
+};
+
+const icecreamReducer = (state = initialIcecreamState, action) => {
+  switch (action.type) {
     case 'BUY_ICECREAM':
       return {
         ...state,
@@ -56,10 +67,15 @@ const reducer = (state = initialState, action) => {
 };
 
 // * we can also have more reducers
+// * but then we have to combine them
+const rootReducer = combineReducers({
+  cake: cakeReducer,
+  iceCream: icecreamReducer,
+});
 
 // ! STORE
 // * we create a store by passing in the reducer
-const store = createStore(reducer);
+const store = createStore(rootReducer);
 
 // * clg the initial state
 console.log('Initial state', store.getState());
