@@ -9,3 +9,12 @@
 // * 3) Write pure reducers - reducer should always return newState from (prevState, action)
 
 // * App -(dispatch)-> Action -> Reducer -> Store -(subscribe)-> App... and so on
+
+// ! ACTION - an object with "type" property
+// ! this is also an action creator function which returns an action
+const buyCake = () => {
+  return {
+    type: 'BUY_CAKE',
+    info: 'First redux action',
+  };
+};
