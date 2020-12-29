@@ -23,11 +23,19 @@ const buyCake = () => {
   };
 };
 
+const buyIceCream = () => {
+  return {
+    type: 'BUY_ICECREAM',
+    info: 'First redux action',
+  };
+};
+
 // ! REDUCER - pure function that accepts state and action as arguments and returns next state
 // ! make sure to always recreate state inside reducer as we return the whole state
 
 const initialState = {
   numOfCakes: 10,
+  numOfIceCreams: 20,
 };
 
 const reducer = (state = initialState, action) => {
@@ -37,10 +45,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         numOfCakes: state.numOfCakes - 1,
       };
+    case 'BUY_ICECREAM':
+      return {
+        ...state,
+        numOfIceCreams: state.numOfIceCreams - 1,
+      };
     default:
       return state;
   }
 };
+
+// * we can also have more reducers
 
 // ! STORE
 // * we create a store by passing in the reducer
@@ -56,6 +71,8 @@ const unsubscribe = store.subscribe(() => console.log('Updated state', store.get
 store.dispatch(buyCake());
 store.dispatch(buyCake());
 store.dispatch(buyCake());
+store.dispatch(buyIceCream());
+store.dispatch(buyIceCream());
 
 // * unsubscribe
 unsubscribe();
