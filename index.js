@@ -1,3 +1,6 @@
+const redux = require('redux');
+const createStore = redux.createStore;
+
 // *** Three core concepts:
 // * STORE - holds the state of your application
 // * ACTION - describes what happened ex. BUY_CAKE
@@ -29,7 +32,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case BUY_CAKE:
+    case 'BUY_CAKE':
       return {
         ...state,
         numOfCakes: state.numOfCakes - 1,
@@ -38,3 +41,21 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
+
+// ! STORE
+// * we create a store by passing in the reducer
+const store = createStore(reducer);
+
+// * clg the initial state
+console.log('Initial state', store.getState());
+
+// * we subscribe to updates AND save the return function to unsubscribe at the end
+const unsubscribe = store.subscribe(() => console.log('Updated state', store.getState()));
+
+// * dispatch actions
+store.dispatch(buyCake());
+store.dispatch(buyCake());
+store.dispatch(buyCake());
+
+// * unsubscribe
+unsubscribe();
