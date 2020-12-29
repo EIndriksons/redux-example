@@ -12,9 +12,29 @@
 
 // ! ACTION - an object with "type" property
 // ! this is also an action creator function which returns an action
+
 const buyCake = () => {
   return {
     type: 'BUY_CAKE',
     info: 'First redux action',
   };
+};
+
+// ! REDUCER - pure function that accepts state and action as arguments and returns next state
+// ! make sure to always recreate state inside reducer as we return the whole state
+
+const initialState = {
+  numOfCakes: 10,
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case BUY_CAKE:
+      return {
+        ...state,
+        numOfCakes: state.numOfCakes - 1,
+      };
+    default:
+      return state;
+  }
 };
