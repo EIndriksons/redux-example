@@ -1,7 +1,11 @@
 // *** Introduction to Async Redux operations
 const redux = require('redux');
 const createStore = redux.createStore;
+const applyMiddleware = redux.applyMiddleware;
+const thunkMiddleware = require('redux-thunk').default;
+const axios = require('axios');
 
+// ! Actions
 const initialState = {
   loading: false,
   users: [],
@@ -32,6 +36,7 @@ const fetchUsersFailure = (error) => {
   };
 };
 
+// ! Reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USERS_REQUEST:
@@ -56,4 +61,31 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const store = createStore(reducer);
+// ! Action creator
+const fetchUsers = () => {
+  return function (dispatch) {
+    dispatch(fetchUsersRequest());
+    axios
+      .get('https://jsonplaceholder.typicode.com/users')
+      .then((response) => {
+        // response.data is the array of users
+        const users = response.data.map((user) => user.id);
+        dispatch(fetchUsersSuccess(users));
+      })
+      .catch((error) => {
+        // error.message is the error description
+        dispatch(fetchUsersFailure(error.message));
+      });
+  };
+};
+
+// ! Store
+const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+store.subscribe(() => {
+  console.log(store.getState());
+});
+store.dispatch(fetchUsers());
+
+// *** we will use two packages:
+// * axios - to use API end points
+// * redux-thunk - defiine async action creators (redux middleware)
