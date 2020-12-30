@@ -18,7 +18,7 @@ const CakeContainer = (props) => {
 // ! So we will also have access to numOfCakes from props.numOfCakes
 const mapStateToProps = (state) => {
   return {
-    numOfCakes: state.numOfCakes,
+    numOfCakes: state.cake.numOfCakes,
   };
 };
 
