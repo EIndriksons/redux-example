@@ -28,4 +28,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
+// ! if you dont have mapStateToProps then use null
 export default connect(mapStateToProps, mapDispatchToProps)(ItemContainer);
