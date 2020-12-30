@@ -1,6 +1,10 @@
 const redux = require('redux');
 const createStore = redux.createStore;
 const combineReducers = redux.combineReducers;
+const applyMiddleware = redux.applyMiddleware;
+
+const reduxLogger = require('redux-logger');
+const logger = reduxLogger.createLogger();
 
 // *** Three core concepts:
 // * STORE - holds the state of your application
@@ -74,8 +78,8 @@ const rootReducer = combineReducers({
 });
 
 // ! STORE
-// * we create a store by passing in the reducer
-const store = createStore(rootReducer);
+// * we create a store by passing in the reducer and middleware (if necessary)
+const store = createStore(rootReducer, applyMiddleware(logger));
 
 // * clg the initial state
 console.log('Initial state', store.getState());
